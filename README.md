@@ -1,339 +1,649 @@
-# SkillSync — Evidence-Based Resume Analysis & Career Readiness
+# SkillSync — From Potential to Proof.
 
-SkillSync is an evidence-based resume analysis and career readiness platform designed primarily for college students, fresh graduates, and job seekers. Unlike traditional resume tools that merely match keyword occurrences and present arbitrary, unexplained percentage scores, SkillSync evaluates whether a candidate's skills are substantiated by genuine evidence in project descriptions, work experience, education, and internship achievements.
+**Evidence-Based Resume Analysis & Career Readiness Platform**
 
-SkillSync connects **resume evidence**, **job requirements**, **explainable matching**, and **personalized career improvement**.
+Understand what your resume proves. Discover what it needs. Build a stronger career profile.
 
----
-
-## 1. The Evidence Distinction Principle
-
-The central thesis of SkillSync is that a resume document represents claims that require contextual evidence:
-- **Strong Evidence:** A skill is actively demonstrated in a technical project or work experience with clear implementation context and measurable impact.
-- **Supported Evidence:** A skill is mentioned with moderate context within a relevant project, course, or responsibilities list.
-- **Limited Evidence:** A skill is merely listed in a standalone skills matrix or bullet list with no supporting narrative.
-- **Missing:** An essential requirement for the target job role is completely absent from the resume text.
-
-SkillSync evaluates what is written in the resume document — it does not claim to independently verify real-world competency. Missing resume evidence does not automatically mean missing ability.
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-Database-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)
 
 ---
 
-## 2. Four-Stage Development Plan
+## 📖 Table of Contents
 
-| Stage | Focus | Status |
-| :--- | :--- | :--- |
-| **Stage 1** | Product Foundation, Website, Database Integration, and Core User Flow | **Completed** |
-| **Stage 2** | Resume Analysis Engine (PyMuPDF, Explainable Scoring Microservice) | **Completed** |
-| **Stage 3** | Career Intelligence, Multi-Role Comparison, Evidence Visualization, and Personalized Learning Roadmaps | **Completed** |
-| **Stage 4** | Hardening, End-to-End Testing, and Production Deployments (Vercel & Render) | *Planned* |
-
----
-
-## 3. What Works in Stage 1
-
-- [x] Professional, accessible UI with React, Vite, TypeScript, and Tailwind CSS.
-- [x] Public landing page with hero section, 4-step workflow, and features overview.
-- [x] Supabase authentication: registration, sign in, sign out, and session persistence.
-- [x] Protected dashboard with secure route guards.
-- [x] Real database role catalog from Supabase `job_roles` table.
-- [x] Client-side PDF validation: drag-and-drop, 5 MB limit, `%PDF` magic byte verification.
-- [x] User profile management keyed to Supabase Auth UUIDs.
-- [x] Settings page with database connection diagnostics.
-- [x] Authentic empty states — no fake scores or fabricated records.
+- [🌌 The Vision Behind SkillSync](#-the-vision-behind-skillsync)
+- [⚡ The Problem](#-the-problem)
+- [💡 The SkillSync Approach](#-the-skillsync-approach)
+- [✨ Core Features](#-core-features)
+- [🧠 Evidence Intelligence Engine](#-evidence-intelligence-engine)
+- [📊 Resume Evidence Scoring Model](#-resume-evidence-scoring-model)
+- [🔍 Skill Gap Analysis](#-skill-gap-analysis)
+- [🗺️ Personalized Learning Roadmap](#️-personalized-learning-roadmap)
+- [🏗️ System Architecture](#️-system-architecture)
+- [🛠️ Technology Stack](#️-technology-stack)
+- [📂 Project Structure](#-project-structure)
+- [🔐 Security & Data Protection](#-security--data-protection)
+- [🚀 Getting Started](#-getting-started)
+- [🔌 API Reference](#-api-reference)
+- [🧪 Testing](#-testing)
+- [⚠️ Current Limitations](#️-current-limitations)
+- [🔮 Future Roadmap](#-future-roadmap)
+- [👩‍💻 Author](#-author)
 
 ---
 
-## 4. What Works in Stage 2
+## 🌌 The Vision Behind SkillSync
 
-- [x] PDF text extraction via PyMuPDF.
-- [x] Canonical skill dictionary with alias matching (covers all 6 configured roles).
-- [x] 4-tier evidence classification: `strong`, `supported`, `limited`, `missing`.
-- [x] Explainable match score using documented evidence weights (1.0 / 0.7 / 0.3 / 0.0).
-- [x] Supporting resume passage extraction for each classified skill.
-- [x] Secure persistence to Supabase `resumes`, `analyses`, and `skill_evidence` tables.
-- [x] Analysis history page with full evidence report viewer.
-- [x] FastAPI backend with authentication, ownership checks, and RLS preservation.
+A resume is more than a document. It is a representation of a person's skills, experiences, projects, and potential.
 
----
+However, students and fresh graduates often struggle to understand whether their resumes actually demonstrate the skills expected by their target job roles.
 
-## 5. What Works in Stage 3
+**SkillSync bridges the gap between having skills and demonstrating those skills through meaningful resume evidence.**
 
-### 5.1 Skill Insights (`/dashboard/insights`)
-- Generates a human-readable insight for every required skill based on its saved evidence classification.
-- Explains what each evidence level means in plain language.
-- Shows the actual supporting resume passage when available.
-- Provides a suggested action appropriate to the evidence level (resume improvement or skill development).
-- Correctly distinguishes between missing resume evidence and missing ability — the system never claims a user lacks a skill simply because the resume does not mention it.
-- Summary bar shows counts for Strong, Supported, Limited, and Missing skills.
+It helps users analyze their resumes against selected job roles, understand how individual skills are represented, identify evidence gaps, compare career opportunities, and follow structured improvement recommendations.
 
-### 5.2 Visual Skill-Evidence Map (within Insights)
-- One expandable card per required skill showing evidence level, badge, resume passage, and suggested action.
-- Color-coded badges with readable text labels (not color alone).
-- Accessible contrast and responsive layout.
+> From Potential to Proof — turning resume analysis into actionable career growth.
 
-### 5.3 Multi-Role Comparison (`/dashboard/compare`)
-- Select 2–4 job roles to compare against a saved resume.
-- Each role is analyzed against its own required skills using the same Stage 2 scoring formula.
-- Results show match score, evidence counts, and skills to address per role.
-- Best-match role is highlighted.
-- A plain-language summary is generated from actual comparison data.
-- Each comparison analysis is saved to Supabase with correct user/resume/role associations.
-- Duplicate role selections are prevented.
+## ⚡ The Problem
 
-### 5.4 Skill-Gap Analysis (within Insights and Roadmap)
-- Skills are grouped by evidence level: strong/supported, limited, missing.
-- Recommendations distinguish between resume-evidence gaps (improve description) and potential learning gaps (develop the skill).
-- No unsupported claims about a user's ability are made.
+Traditional resume checkers often focus heavily on keyword matching.
 
-### 5.5 Personalized Roadmap (`/dashboard/roadmap`)
-- Generates a structured action plan from the saved analysis evidence.
-- Three recommendation categories:
-  - **Improve Resume Evidence** — for strong, supported, and limited skills.
-  - **Practise Existing Skill** — for missing skills where the user may already have experience.
-  - **Develop New Skill** — for missing skills where learning may be needed.
-- Missing skills generate both a practise option and a develop option, since the system cannot determine which applies.
-- All recommendations start as `not_started`.
-- Users can update each recommendation to `in_progress` or `completed`.
-- Progress persists across sessions via Supabase `roadmaps` table.
-- Progress bar and counts (not started / in progress / completed) are calculated from actual saved statuses.
-- Roadmaps are saved securely — ownership is verified through the linked analysis before any read or write.
+A skill appearing in a resume does not necessarily mean that the candidate has demonstrated it through practical work.
 
-### 5.6 Learning Resources (`/dashboard/resources`)
-- Curated catalogue of verified resources for each skill in the taxonomy.
-- Resources are prioritized for skills with limited or missing evidence.
-- Each resource includes: title, type badge, source name, description, free/paid indicator, and URL.
-- All URLs are official documentation or well-established free platforms.
-- Skill filter tabs allow focusing on a single skill's resources.
-- Opening a resource does not alter the evidence classification — only re-analyzing an updated resume does that.
+For example:
 
-### 5.7 Dashboard Integration
-- Stage 3 Career Intelligence section appears on the main dashboard when at least one analysis exists.
-- Shows quick-access cards for Skill Insights, My Roadmap, Compare Roles, and Learning Resources.
-- Displays the latest roadmap progress bar and status counts if a roadmap has been generated.
-- All values come from real saved data — no hardcoded sample content.
+| Resume Content | What It Demonstrates |
+|---|---|
+| Java listed under Skills | Limited evidence |
+| Java mentioned in coursework | Supporting evidence |
+| Java used in a project with implementation details | Stronger evidence |
 
-### 5.8 Post-Analysis Navigation
-- After completing a resume analysis, the result card shows direct links to Skill Insights and Generate Roadmap for that analysis.
+This creates several challenges:
+
+- Students cannot easily understand the quality of their resume evidence.
+- Keyword-based matching may overestimate skill representation.
+- Generic resume scores do not explain individual skill gaps.
+- Users often receive suggestions without a clear improvement path.
+- Comparing multiple job roles becomes difficult.
+
+## 💡 The SkillSync Approach
+
+SkillSync introduces an evidence-based resume analysis approach.
+
+Instead of simply checking whether a keyword exists, it evaluates the context in which a skill appears.
+
+The platform connects four important stages:
+
+1. **Analyze:** Extract resume text and identify relevant skills.
+2. **Understand:** Classify how strongly each skill is supported by resume evidence.
+3. **Compare:** Evaluate the resume against multiple job roles.
+4. **Improve:** Generate actionable recommendations and a personalized roadmap.
+
+The goal is not to judge a person's actual ability from a PDF. It is to understand how effectively the resume communicates that ability.
 
 ---
 
-## 6. Technology Stack
+## ✨ Core Features
+
+### 1. 📄 Resume Analysis
+
+- Upload resumes in PDF format.
+- Validate file type and file size.
+- Extract readable PDF text using PyMuPDF.
+- Identify skills using a canonical skill dictionary and aliases.
+- Analyze resume evidence against configured job roles.
+- Generate a weighted evidence coverage score.
+- Save analysis results for future reference.
+
+### 2. 🧠 Skill Evidence Insights
+
+Understand exactly how each required skill appears in your resume.
+
+- Individual skill-level explanations.
+- Strong, Supported, Limited, and Missing evidence classifications.
+- Supporting resume passages.
+- Evidence-based improvement suggestions.
+- Skill evidence distribution.
+- Clear distinction between demonstrated resume evidence and actual ability.
+
+### 3. ⚖️ Multi-Role Comparison
+
+Compare your resume against multiple career opportunities.
+
+- Compare 2–4 job roles simultaneously.
+- Evaluate each role using its own skill requirements.
+- Display role-wise evidence scores.
+- Identify supported skills and missing evidence.
+- Highlight the strongest resume match.
+- Save and revisit comparison results.
+
+### 4. 🎯 Intelligent Skill Gap Analysis
+
+Identify the difference between required skills and available resume evidence.
+
+- Discover skills without sufficient resume evidence.
+- Identify skills that need stronger project descriptions.
+- Separate resume presentation gaps from potential learning gaps.
+- Recommend meaningful next steps for each skill.
+
+### 5. 🗺️ Personalized Learning Roadmap
+
+Turn analysis results into actionable recommendations.
+
+Three recommendation categories:
+
+| Category | Purpose |
+|---|---|
+| Improve Resume Evidence | Better demonstrate an existing skill through meaningful project or experience details |
+| Practise Existing Skill | Strengthen practical understanding through exercises and implementation |
+| Develop New Skill | Build knowledge in a skill not currently supported by the resume |
+
+Track progress using:
+
+- Not Started
+- In Progress
+- Completed
+
+Roadmap progress is saved and associated with the user's account.
+
+### 6. 📚 Learning Resources
+
+A dedicated resource section to support skill development.
+
+- Curated learning resources.
+- Official documentation links.
+- Recognized free learning platforms.
+- Skill-based resource filtering.
+- Resource metadata and descriptions.
+
+Opening a learning resource does not automatically change a skill's evidence classification.
+
+### 7. 📈 Analysis History & Dashboard
+
+- View previous resume analyses.
+- Access saved reports.
+- Revisit skill insights.
+- Track roadmap recommendations.
+- Navigate between dashboard modules.
+
+---
+
+## 🧠 Evidence Intelligence Engine
+
+The central differentiator of SkillSync is its contextual evidence classification system.
+
+Each identified skill is evaluated according to how it is represented in the resume.
+
+### Four Evidence Levels
+
+| Evidence Level | Description | Weight |
+|---|---|---:|
+| 🟢 Strong | Skill demonstrated through a project or work experience with clear implementation context | 1.0 |
+| 🔵 Supported | Relevant contextual mention in projects, coursework, or responsibilities | 0.7 |
+| 🟡 Limited | Skill mentioned in a standalone skills list without supporting explanation | 0.3 |
+| ⚪ Missing | No matching resume evidence identified | 0.0 |
+
+### Example
+
+Consider a job role requiring Java, React, SQL, Python, and Git.
+
+A candidate's resume might demonstrate:
+
+- Java through a project implementation.
+- React through a project description.
+- SQL through coursework.
+- Python only in the skills section.
+- No identifiable Git evidence.
+
+SkillSync classifies each skill based on the available resume content rather than treating every keyword equally.
+
+This makes the analysis more informative than a simple keyword count.
+
+---
+
+## 📊 Resume Evidence Scoring Model
+
+SkillSync calculates an evidence coverage score using weighted skill evidence.
+
+**Formula:**
+
+```text
+Evidence Coverage Score =
+
+(Sum of Evidence Weights / Total Required Skills) × 100
+```
+
+### Example Calculation
+
+Suppose a job role requires five skills:
+
+| Skill | Evidence Level | Weight |
+|---|---|---:|
+| Java | Strong | 1.0 |
+| React | Supported | 0.7 |
+| SQL | Strong | 1.0 |
+| Python | Limited | 0.3 |
+| Git | Missing | 0.0 |
+
+```text
+Total Evidence Weight = 1.0 + 0.7 + 1.0 + 0.3 + 0.0
+
+Total Required Skills = 5
+
+Score = (3.0 / 5) × 100
+
+Evidence Coverage Score = 60%
+```
+
+**Important:** This is a heuristic resume evidence coverage score. It is not a hiring probability, an ATS approval score, or a verified measurement of real-world competency.
+
+---
+
+## 🔍 Skill Gap Analysis
+
+SkillSync does not treat every missing skill as a learning problem.
+
+It distinguishes between two different situations:
+
+**1. Resume Evidence Gap**
+
+The candidate may already know a skill, but the resume does not demonstrate it sufficiently.
+
+Recommended action:
+- Add meaningful project descriptions.
+- Explain implementation details.
+- Include relevant responsibilities and outcomes.
+
+**2. Skill Development Gap**
+
+The resume does not provide evidence that the required skill has been developed.
+
+Recommended action:
+- Learn the fundamentals.
+- Practise through coding exercises.
+- Build practical projects.
+- Add meaningful implementation experience.
+
+This distinction helps users improve both their resumes and their technical readiness.
+
+---
+
+## 🗺️ Personalized Learning Roadmap
+
+The roadmap transforms skill analysis into structured improvement activities.
+
+Each recommendation includes:
+
+- Skill name.
+- Evidence level.
+- Recommendation category.
+- Goal.
+- Suggested action.
+- Practical activity.
+- Expected outcome.
+- Progress status.
+
+### Recommendation Lifecycle
+
+```text
+Resume Analysis
+      |
+      v
+Skill Evidence Classification
+      |
+      v
+Skill Gap Identification
+      |
+      v
+Recommendation Generation
+      |
+      v
+Personalized Roadmap
+      |
+      v
+Track Improvement Progress
+```
+
+Users can update recommendation statuses and continue tracking their progress through the dashboard.
+
+---
+
+## 🏗️ System Architecture
+
+SkillSync follows a frontend-backend architecture with Supabase authentication and PostgreSQL persistence.
+
+```mermaid
+flowchart TD
+    A[User] --> B[React Frontend]
+    B --> C[Supabase Authentication]
+    B --> D[FastAPI Backend]
+
+    D --> E[JWT Verification]
+    E --> F[PDF Parser - PyMuPDF]
+
+    F --> G[Skill Matching Engine]
+    G --> H[Evidence Classifier]
+    H --> I[Weighted Scoring Engine]
+
+    I --> J[Insights Service]
+    I --> K[Role Comparison]
+    I --> L[Roadmap Service]
+
+    J --> M[(Supabase PostgreSQL)]
+    K --> M
+    L --> M
+
+    M --> N[Dashboard and Reports]
+```
+
+### Analysis Workflow
+
+1. User uploads a PDF resume.
+2. Frontend validates the file.
+3. Authenticated request reaches FastAPI.
+4. Backend verifies the Supabase JWT.
+5. PyMuPDF extracts resume text.
+6. Skill matching identifies relevant skills.
+7. Evidence classifier evaluates contextual mentions.
+8. Scoring engine calculates evidence coverage.
+9. Results are stored in Supabase.
+10. Dashboard displays insights, comparisons, and roadmap recommendations.
+
+---
+
+## 🛠️ Technology Stack
 
 ### Frontend
-- **Framework:** React 19 + Vite 8 + TypeScript
-- **Styling:** Tailwind CSS v4 + Lucide React icons
-- **Routing:** React Router v7
-- **Database & Auth Client:** `@supabase/supabase-js` v2
+
+| Technology | Purpose |
+|---|---|
+| React 19 | User interface |
+| Vite 8 | Development and build tooling |
+| TypeScript | Type safety |
+| Tailwind CSS v4 | Styling |
+| Lucide React | Icons |
+| React Router v7 | Application navigation |
+| Supabase JS v2 | Authentication and data integration |
 
 ### Backend
-- **Framework:** Python 3.13 + FastAPI
-- **PDF Extraction:** PyMuPDF (`fitz`)
-- **Database:** PostgreSQL hosted on Supabase (Project: **Synvora**)
-- **Authentication:** Supabase Auth (JWT, email/password)
+
+| Technology | Purpose |
+|---|---|
+| Python 3.13 | Backend language |
+| FastAPI | REST API framework |
+| PyMuPDF | PDF text extraction |
+| Pydantic | Data validation |
+
+### Database & Security
+
+| Technology | Purpose |
+|---|---|
+| Supabase PostgreSQL | Persistent data storage |
+| Supabase Auth | User authentication |
+| JWT | Request authentication |
+| Row Level Security | Database access protection |
 
 ---
 
-## 7. Project Directory Structure
+## 📂 Project Structure
 
-```
-skillsync/
+```text
+SkillSync/
+│
 ├── backend/
 │   ├── app/
-│   │   ├── api/routes/
-│   │   │   ├── health.py          # GET /api/health
-│   │   │   ├── analysis.py        # Stage 2 analysis endpoints
-│   │   │   └── stage3.py          # Stage 3 insights, compare, roadmap, resources
+│   │   ├── api/
+│   │   │   └── routes/
+│   │   │       ├── health.py
+│   │   │       ├── analysis.py
+│   │   │       └── stage3.py
+│   │   │
 │   │   ├── repositories/
 │   │   │   └── supabase_repository.py
+│   │   │
 │   │   ├── schemas/
-│   │   │   ├── analysis.py        # Stage 2 Pydantic models
-│   │   │   └── stage3.py          # Stage 3 Pydantic models
+│   │   │   ├── analysis.py
+│   │   │   └── stage3.py
+│   │   │
 │   │   ├── services/
 │   │   │   ├── analysis_service.py
 │   │   │   ├── evidence_classifier.py
-│   │   │   ├── insights_service.py    # Stage 3: skill insight generation
-│   │   │   ├── learning_resources.py  # Stage 3: verified resource catalogue
+│   │   │   ├── insights_service.py
+│   │   │   ├── learning_resources.py
 │   │   │   ├── matching_engine.py
 │   │   │   ├── pdf_parser.py
-│   │   │   ├── roadmap_service.py     # Stage 3: roadmap generation & progress
+│   │   │   ├── roadmap_service.py
 │   │   │   └── scoring_engine.py
+│   │   │
 │   │   └── main.py
+│   │
 │   ├── tests/
-│   │   ├── test_stage3.py         # 22 Stage 3 tests
-│   │   └── ...                    # 32 Stage 1+2 tests
 │   └── requirements.txt
+│
 ├── src/
 │   ├── components/
 │   │   ├── analysis/
-│   │   │   └── AnalysisResultCard.tsx  # Links to Stage 3 after analysis
-│   │   ├── layout/
-│   │   │   └── Sidebar.tsx             # Career Intelligence nav group
-│   │   └── ...
-│   ├── pages/dashboard/
-│   │   ├── DashboardPage.tsx           # Stage 3 summary cards + roadmap progress
-│   │   ├── InsightsPage.tsx            # Skill insights + evidence map
-│   │   ├── CompareRolesPage.tsx        # Multi-role comparison
-│   │   ├── RoadmapPage.tsx             # Personalized roadmap + progress tracking
-│   │   └── LearningResourcesPage.tsx   # Skill-specific learning resources
+│   │   └── layout/
+│   │
+│   ├── pages/
+│   │   └── dashboard/
+│   │       ├── DashboardPage.tsx
+│   │       ├── InsightsPage.tsx
+│   │       ├── CompareRolesPage.tsx
+│   │       ├── RoadmapPage.tsx
+│   │       └── LearningResourcesPage.tsx
+│   │
 │   ├── services/
 │   │   ├── analysis.ts
-│   │   └── stage3.ts                   # Stage 3 API client functions
+│   │   └── stage3.ts
+│   │
 │   └── types/
-│       └── index.ts                    # Stage 3 TypeScript types
-└── ...
+│       └── index.ts
+│
+└── README.md
 ```
 
 ---
 
-## 8. Installation and Setup
+## 🔐 Security & Data Protection
+
+SkillSync uses authentication and ownership checks to protect user data.
+
+- Supabase JWT verification through the authentication service.
+- User identity is derived from the verified token.
+- Backend ownership checks for user-specific records.
+- Row Level Security is preserved.
+- Supabase service role credentials remain backend-only.
+- Uploaded resume content is not written to application logs.
+- Temporary PDF processing uses file bytes rather than permanent public file storage.
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- **Node.js:** v18.0.0 or later
-- **Python:** 3.11 or later
-- **npm:** v9.0.0 or later
 
-### Step 1: Install Frontend Dependencies
+Make sure you have:
+
+- Node.js 18 or later.
+- npm 9 or later.
+- Python 3.11 or later.
+- A Supabase project.
+- Git installed.
+
+### 1. Clone the Repository
+
 ```bash
-cd skillsync
+git clone <your-repository-url>
+
+cd SkillSync
+```
+
+### 2. Install Frontend Dependencies
+
+```bash
 npm install
 ```
 
-### Step 2: Configure Frontend Environment Variables
-```bash
-cp .env.example .env
-```
-Fill in your Supabase credentials:
+### 3. Configure Frontend Environment
+
+Create a `.env` file in the project root.
+
 ```env
-VITE_SUPABASE_URL=https://your-project-id.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-anon-key
+VITE_SUPABASE_URL=your_supabase_project_url
+
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
+
 VITE_API_BASE_URL=http://127.0.0.1:8001/api
 ```
 
-> **Security Note:** Never place service-role secret keys in the frontend `.env`. The frontend requires only the publishable/anon key.
+### 4. Configure Backend Environment
 
-### Step 3: Configure Backend Environment Variables
-```bash
-cp backend/.env.example backend/.env
-```
-Fill in:
+Create a `.env` file in the backend configuration location expected by your application.
+
 ```env
-SUPABASE_URL=https://your-project-id.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_URL=your_supabase_project_url
+
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-> The service role key is required for backend database writes that bypass RLS. Keep it only in `backend/.env`.
+**Security note:** Never commit environment files or expose your service role key in frontend code or public repositories.
 
-### Step 4: Install Backend Dependencies
+### 5. Install Backend Dependencies
+
 ```bash
 pip install -r backend/requirements.txt
 ```
 
-### Step 5: Start the Backend
+### 6. Start the Backend Server
+
+Run from the project root:
+
 ```bash
 uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8001
 ```
 
-### Step 6: Start the Frontend
+Backend API:
+
+```text
+http://127.0.0.1:8001
+```
+
+### 7. Start the Frontend
+
+Open another terminal:
+
 ```bash
 npm run dev
 ```
-Open [http://localhost:5173](http://localhost:5173).
+
+Frontend:
+
+```text
+http://localhost:5173
+```
 
 ---
 
-## 9. Running Tests
+## 🔌 API Reference
 
-### Backend Tests (54 tests — Stages 1, 2, and 3)
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/health` | Backend health check |
+| GET | `/api/stage3/insights/{analysis_id}` | Retrieve skill evidence insights |
+| POST | `/api/stage3/compare` | Compare multiple job roles |
+| POST | `/api/stage3/roadmaps?analysis_id=` | Generate roadmap recommendations |
+| GET | `/api/stage3/roadmaps/analysis/{analysis_id}` | Retrieve roadmap for an analysis |
+| PATCH | `/api/stage3/roadmaps/{roadmap_id}/recommendations/{rec_id}` | Update recommendation status |
+| GET | `/api/stage3/learning-resources/{skill}` | Retrieve resources for a skill |
+| GET | `/api/stage3/learning-resources?skills=A,B,C` | Retrieve resources for multiple skills |
+
+---
+
+## 🧪 Testing
+
+SkillSync includes backend and frontend validation tests.
+
+### Backend Tests
+
 ```bash
 python -m pytest backend/tests/ -v
 ```
-All tests use in-memory PDF generation and the local fallback store. No real Supabase credentials are required.
 
-### Frontend Build Check
+### Frontend Production Build
+
 ```bash
 npm run build
 ```
 
-### PDF Validator Unit Tests
+### PDF Validator Tests
+
 ```bash
 npm run test:validator
 ```
 
----
+**Current test coverage:** 54 backend tests across the implemented analysis and Stage 3 functionality.
 
-## 10. Stage 3 API Endpoints
-
-All Stage 3 endpoints are under `/api/stage3/`. Protected endpoints require `Authorization: Bearer <token>`.
-
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `GET` | `/api/stage3/insights/{analysis_id}` | Required | Generate skill insights from a saved analysis |
-| `POST` | `/api/stage3/compare` | Required | Compare a resume against 2–4 job roles |
-| `POST` | `/api/stage3/roadmaps?analysis_id=` | Required | Generate a personalized roadmap |
-| `GET` | `/api/stage3/roadmaps/analysis/{analysis_id}` | Required | Retrieve an existing roadmap |
-| `PATCH` | `/api/stage3/roadmaps/{roadmap_id}/recommendations/{rec_id}` | Required | Update recommendation status |
-| `GET` | `/api/stage3/learning-resources/{skill}` | None | Resources for a single skill |
-| `GET` | `/api/stage3/learning-resources?skills=A,B,C` | None | Resources for multiple skills |
+The backend tests use in-memory PDF data and local fallback behavior where applicable, so Supabase credentials are not required for those test cases.
 
 ---
 
-## 11. Supabase Database Schema
+## ⚠️ Current Limitations
 
-All 6 tables are used across the three completed stages:
+SkillSync is an evolving project. The following limitations are acknowledged:
 
-| Table | Used In | Purpose |
-|---|---|---|
-| `profiles` | Stage 1 | User information keyed to `auth.users.id` |
-| `job_roles` | Stage 1, 2, 3 | Career paths and required skill arrays |
-| `resumes` | Stage 2, 3 | Uploaded resume metadata and extracted text |
-| `analyses` | Stage 2, 3 | Match scores, matched/missing skills per analysis |
-| `skill_evidence` | Stage 2, 3 | Per-skill evidence level and supporting passage |
-| `roadmaps` | Stage 3 | Personalized recommendations stored as JSONB |
+- Evidence classification currently uses rule-based logic and heuristics.
+- The configured job-role catalog and skill taxonomy cover six roles.
+- Scanned PDFs are not supported because OCR is not implemented.
+- Evidence weights are heuristic and have not been validated against hiring outcomes.
+- The system cannot independently verify real-world technical competency.
+- Learning resources currently use a curated static catalog.
+- Roadmap recommendations do not currently include deadlines or duration estimates.
+- AI-powered recommendation generation is not currently implemented.
 
-The `roadmaps.recommendations` JSONB field stores an array of recommendation objects. Each object contains: `id`, `skill_name`, `evidence_level`, `category`, `goal`, `action`, `activity`, `expected_outcome`, and `status`. Progress updates are persisted by replacing the full array via the backend service role key.
-
----
-
-## 12. Security Model
-
-- Every protected endpoint validates the Supabase JWT against the Supabase Auth `/auth/v1/user` endpoint.
-- User identity is extracted from the verified token — never trusted from the request body.
-- Ownership is verified before returning any analysis, roadmap, or evidence record.
-- The service role key is used only on the backend for database writes. It is never exposed to the frontend.
-- RLS policies on all tables are preserved. The backend uses the service role key only for inserts that require bypassing RLS.
-- No resume text is logged in full. File bytes are discarded after processing.
-- No resume data is sent to external AI providers.
+These limitations are important because SkillSync is designed to provide transparent resume evidence insights rather than make unsupported claims about a candidate's abilities.
 
 ---
 
-## 13. Known Limitations
+## 🔮 Future Roadmap
 
-- Evidence classification is rule-based (regex + heuristics). Unusual resume formats may produce unexpected classifications.
-- The skill dictionary covers the 6 configured job roles. Skills outside the taxonomy are not detected.
-- Scanned or image-based PDFs are rejected. OCR is not implemented.
-- Scoring weights (1.0 / 0.7 / 0.3 / 0.0) are an initial heuristic and have not been validated against hiring outcomes.
-- The system evaluates resume text only. It cannot verify real-world competency.
-- Learning resources are a curated static catalogue. They are not dynamically fetched from the web.
-- The roadmap does not assign deadlines. Estimated durations are not included in the current version.
-- AI-assisted recommendations are not implemented. All recommendations are deterministic and rule-based.
+Planned improvements include:
+
+- Expanded job-role and skill taxonomy.
+- More advanced contextual skill extraction.
+- OCR support for scanned resumes.
+- More detailed resume improvement suggestions.
+- Expanded curated learning-resource library.
+- Roadmap deadlines, milestones, and progress analytics.
+- Improved automated end-to-end testing.
+- Production deployment and performance optimization.
+- Accessibility improvements and security hardening.
 
 ---
 
-## 14. Troubleshooting
+## 👩‍💻 Author
 
-### "Could not connect to the analysis backend"
-- Ensure the FastAPI backend is running: `uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8001`
-- Verify `VITE_API_BASE_URL` in `.env` matches the backend port.
+**Divyadharshini S**
 
-### "Database Query Error" on Job Roles Page
-- Verify `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in `.env`.
+B.Tech — Information Technology
 
-### "Email Confirmation Required" upon Registration
-- Check your inbox, or disable email confirmations in Supabase Dashboard → Authentication → Providers → Email.
+Interested in Software Development, Artificial Intelligence, and building practical technology solutions.
 
-### "Invalid PDF format"
-- Upload an authentic PDF generated by a word processor or exporter, not a renamed file.
+GitHub: [@DIVYADHARSHINI1301](https://github.com/DIVYADHARSHINI1301)
 
-### Roadmap not saving
-- Ensure `SUPABASE_SERVICE_ROLE_KEY` is set in `backend/.env`. The roadmap insert requires the service role key to bypass RLS.
+---
+
+<p align="center">
+
+**SkillSync**
+
+*From Potential to Proof.*
+
+Building a clearer path between skills, evidence, and career readiness.
+
+</p>
